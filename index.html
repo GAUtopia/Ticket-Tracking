@@ -10,15 +10,20 @@
   </style>
   <script>
     async function trackTicket() {
-      var ticketNumber = document.getElementById('ticketNumber').value;
-      var url =  'https://script.google.com/macros/s/AKfycbz4oc1RXeVEABLOjwjV8EHswJqQ5INvpWo906xAQeTDb_Fm-FJbjaNISY_WE4g2QruiWA/exec?ticket=';
+      var ticketNumber = document.getElementById('ticketNumber').value.trim();
+      if (!ticketNumber) {
+        document.getElementById('result').innerText = "Masukkan nomor tiket terlebih dahulu.";
+        return;
+      }
+
+      var url = 'https://script.google.com/macros/s/AKfycbz4oc1RXeVEABLOjwjV8EHswJqQ5INvpWo906xAQeTDb_Fm-FJbjaNISY_WE4g2QruiWA/exec?ticket=' + encodeURIComponent(ticketNumber);
       
       try {
-      let response = await fetch(url);
-      let result = await response.text();
-      document.getElementById('result').innerText = result;
-    } catch (error) {
-        document.getElementById('result').innerText = "Gagal mengambil Data.";
+        let response = await fetch(url);
+        let result = await response.text();
+        document.getElementById('result').innerText = result;
+      } catch (error) {
+        document.getElementById('result').innerText = "Gagal mengambil data. Periksa koneksi atau coba lagi nanti.";
       }
     }    
   </script>
