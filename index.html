@@ -9,30 +9,30 @@
     #result { margin-top: 20px; font-size: 18px; white-space: pre-line; }
   </style>
   <script>
-    async function trackTicket() {
-      var ticketNumber = document.getElementById('ticketNumber').value.trim();
-
-      if (!ticketNumber) {
-        document.getElementById('result').innerText = "Harap masukkan nomor tiket.";
-        return;
-      }
-
-      var url = 'https://script.google.com/macros/s/AKfycbz4oc1RXeVEABLOjwjV8EHswJqQ5INvpWo906xAQeTDb_Fm-FJbjaNISY_WE4g2QruiWA/exec?ticket=' + encodeURIComponent(ticketNumber);
-
-      try {
-        let response = await fetch(url);
-        let result = await response.json();
-        
-        if (result.error) {
-          document.getElementById('result').innerText = "❌ " + result.error;
-        } else {
-          document.getElementById('result').innerText = "✅ No Tiket: " + result.ticketNumber + "\n📌 Status: " + result.status;
-        }
-      } catch (error) {
-        document.getElementById('result').innerText = "⚠ Gagal mengambil data. Pastikan koneksi internet stabil.";
-      }
+  async function trackTicket() {
+    var ticketNumber = document.getElementById('ticketNumber').value;
+    if (!ticketNumber) {
+      document.getElementById('result').innerText = "Silakan masukkan nomor tiket.";
+      return;
     }
-  </script>
+
+    var url = 'https://script.google.com/macros/s/AKfycbzpKl3zwTkyoCxYlZJBXehqiqEOC_T8Z6K68CrhJq8Ak8XS20VtRXXqhDlBbw_z9dC30A/exec/?ticket=' + encodeURIComponent(ticketNumber);
+    
+    try {
+      let response = await fetch(url);
+      let result = await response.json(); // Ubah jadi JSON
+
+      if (result.error) {
+        document.getElementById('result').innerText = result.error;
+      } else {
+        document.getElementById('result').innerText = "No Tiket: " + result.ticketNumber + "\nStatus: " + result.status;
+      }
+    } catch (error) {
+      document.getElementById('result').innerText = "Gagal mengambil data.";
+    }
+  }
+</script>
+
 </head>
 <body>
   <h2>Lacak Status Tiket</h2>
