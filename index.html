@@ -11,10 +11,16 @@
   <script>
     async function trackTicket() {
       var ticketNumber = document.getElementById('ticketNumber').value;
-      var response = await fetch('https://script.google.com/macros/s/AKfycbz75br6ziZJpxrfaiHGyCMLSoC8SQWlJf_AcKXsp6JrrK_MUhRnjNDqEnZDhiHpc4Ne0w/exec?ticket=');
-      var result = await response.text();
+      var url =  'https://script.google.com/macros/s/AKfycbz75br6ziZJpxrfaiHGyCMLSoC8SQWlJf_AcKXsp6JrrK_MUhRnjNDqEnZDhiHpc4Ne0w/exec?ticket=';
+      
+      try {
+      let response = await fetch(url);
+      let result = await response.text();
       document.getElementById('result').innerText = result;
-    }
+    } catch (error) {
+        document.getElementById('result').innerText = "Gagal mengambil Data.";
+      }
+    }    
   </script>
 </head>
 <body>
