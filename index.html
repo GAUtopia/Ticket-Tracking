@@ -6,26 +6,32 @@
     body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
     input { padding: 10px; width: 300px; margin-bottom: 10px; }
     button { padding: 10px 20px; cursor: pointer; }
-    #result { margin-top: 20px; font-size: 18px; }
+    #result { margin-top: 20px; font-size: 18px; white-space: pre-line; }
   </style>
   <script>
     async function trackTicket() {
       var ticketNumber = document.getElementById('ticketNumber').value.trim();
+
       if (!ticketNumber) {
-        document.getElementById('result').innerText = "Masukkan nomor tiket terlebih dahulu.";
+        document.getElementById('result').innerText = "Harap masukkan nomor tiket.";
         return;
       }
 
-      var url = 'https://script.google.com/macros/s/AKfycbxDecOlYi_Bkbwj_vxC5ywiJRH47aot_cYJR1SjmLzS/dev/exec?ticket=' + encodeURIComponent(ticketNumber);
-      
+      var url = 'https://script.google.com/macros/s/AKfycbz4oc1RXeVEABLOjwjV8EHswJqQ5INvpWo906xAQeTDb_Fm-FJbjaNISY_WE4g2QruiWA/exec?ticket=' + encodeURIComponent(ticketNumber);
+
       try {
         let response = await fetch(url);
-        let result = await response.text();
-        document.getElementById('result').innerText = result;
+        let result = await response.json();
+        
+        if (result.error) {
+          document.getElementById('result').innerText = "❌ " + result.error;
+        } else {
+          document.getElementById('result').innerText = "✅ No Tiket: " + result.ticketNumber + "\n📌 Status: " + result.status;
+        }
       } catch (error) {
-        document.getElementById('result').innerText = "Gagal mengambil data. Periksa koneksi atau coba lagi nanti.";
+        document.getElementById('result').innerText = "⚠ Gagal mengambil data. Pastikan koneksi internet stabil.";
       }
-    }    
+    }
   </script>
 </head>
 <body>
